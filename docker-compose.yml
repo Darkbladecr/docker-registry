@@ -27,6 +27,8 @@ services:
       - 80
     environment:
       VIRTUAL_HOST: docker.mitrasinovic.co.uk
+      LETSENCRYPT_HOST: docker.mitrasinovic.co.uk
+      LETSENCRYPT_EMAIL: smig88@gmail.com
     volumes:
       - ./nginx-conf:/etc/nginx/conf.d
     networks:
