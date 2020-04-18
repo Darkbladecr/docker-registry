@@ -33,7 +33,11 @@ services:
       - ./nginx-conf:/etc/nginx/conf.d
     networks:
       - backend
+      - nginx-proxy
 
 networks:
   backend:
     driver: bridge
+  nginx-proxy:
+    external: true
+
