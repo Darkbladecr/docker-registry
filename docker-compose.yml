@@ -25,19 +25,22 @@ services:
       - registry
     expose:
       - 80
-    environment:
-      VIRTUAL_HOST: docker.mitrasinovic.co.uk
-      LETSENCRYPT_HOST: docker.mitrasinovic.co.uk
-      LETSENCRYPT_EMAIL: smig88@gmail.com
+    labels:
+      traefik.enable: true
+      traefik.http.routers.docker-registry-http.rule: Host(`docker.mitrasinovic.co.uk`)
+      traefik.http.routers.docker-registry-http.entrypoints: web
+      traefik.http.routers.docker-registry.rule: Host(`docker.mitrasinovic.co.uk`)
+      traefik.http.routers.docker-registry.entrypoints: websecure
+      traefik.http.routers.docker-registry.tls.certresolver: letsencrypt
+      traefik.http.routers.docker-registry-http.middlewares: https_redirect@file
     volumes:
       - ./nginx-conf:/etc/nginx/conf.d
     networks:
       - backend
-      - nginx-proxy
+      - traefik-proxy
 
 networks:
   backend:
     driver: bridge
-  nginx-proxy:
+  traefik-proxy:
     external: true
-
