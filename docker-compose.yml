@@ -20,11 +20,8 @@ services:
       - traefik-proxy
     labels:
       traefik.enable: true
-      traefik.http.routers.docker-registry-http.rule: Host(`docker.mitrasinovic.co.uk`)
-      traefik.http.routers.docker-registry-http.entrypoints: web
       traefik.http.routers.docker-registry.rule: Host(`docker.mitrasinovic.co.uk`)
-      traefik.http.routers.docker-registry.entrypoints: websecure
-      traefik.http.routers.docker-registry-http.middlewares: https_redirect@file
+      traefik.http.routers.docker-registry.entrypoints: web
 #  webserver:
 #    image: nginx:1.17.9-alpine
 #    container_name: registry-nginx
