@@ -16,33 +16,16 @@ services:
       - ./auth:/auth
       - ./data:/data
     networks:
-#      - backend
+      # - backend
       - traefik-proxy
     labels:
       - traefik.enable=true
       - traefik.http.routers.docker-registry.rule=Host(`docker.mitrasinovic.co.uk`)
-#      - traefik.http.routers.docker-registry.entrypoints=web
+      # - traefik.http.routers.docker-registry.entrypoints=web
       - traefik.http.routers.docker-registry.tls=true
-#  webserver:
-#    image: nginx:1.17.9-alpine
-#    container_name: registry-nginx
-#    restart: always
-#    depends_on:
-#      - registry
-#    expose:
-#      - 80
-#    labels:
-#      traefik.enable: true
-#      traefik.http.routers.docker-registry.rule: Host(`docker.mitrasinovic.co.uk`)
-#      traefik.http.routers.docker-registry.entrypoints: webonly
-#    volumes:
-#      - ./nginx-conf:/etc/nginx/conf.d
-#    networks:
-#      - backend
-#      - traefik-proxy
 
 networks:
-#  backend:
-#    driver: bridge
+  #  backend:
+  #    driver: bridge
   traefik-proxy:
     external: true
