@@ -6,9 +6,8 @@ services:
     container_name: docker-registry
     restart: always
     expose:
-      - 80
+      - 5000
     environment:
-      REGISTRY_HTTP_ADDR: 0.0.0.0:80
       REGISTRY_AUTH: htpasswd
       REGISTRY_AUTH_HTPASSWD_REALM: Registry
       REGISTRY_AUTH_HTPASSWD_PATH: /auth/registry.password
@@ -17,21 +16,18 @@ services:
       - ./auth:/auth
       - ./data:/data
     networks:
-      # - backend
       - traefik-proxy
     labels:
       - traefik.enable=true
       - traefik.http.routers.docker-registry.rule=Host(`docker.mitrasinovic.co.uk`)
       - traefik.http.routers.docker-registry.tls=true
       - traefik.http.routers.docker-registry.middlewares=https_redirect@file
-      - traefik.http.services.docker-registry-service.loadbalancer.server.port=80
+      - traefik.http.services.docker-registry-service.loadbalancer.server.port=5000
       # Sets the maximum request body to 1GB
-      - traefik.http.routers.docker-registry.middlewares.limit.buffering.maxRequestBodyBytes=1073741824
-      - traefik.http.routers.docker-registry.middlewares.limit.buffering.maxResponseBodyBytes=1073741824
-      - traefik.http.routers.docker-registry.middlewares.limit.buffering.memResponseBodyBytes=200000000
+      - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=1073741824
+      - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=1073741824
+      - traefik.http.middlewares.limit.buffering.memResponseBodyBytes=200000000
 
 networks:
-  #  backend:
-  #    driver: bridge
   traefik-proxy:
     external: true
