@@ -17,6 +17,7 @@ services:
       - ./data:/data
     networks:
       - traefik-proxy
+      # - registry-proxy
     labels:
       - traefik.enable=true
       - traefik.http.routers.docker-registry.rule=Host(`docker.mitrasinovic.co.uk`)
@@ -25,9 +26,37 @@ services:
       - traefik.http.services.docker-registry-service.loadbalancer.server.port=5000
       # Sets the maximum request body to 1GB
       - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=1073741824
+      - traefik.http.middlewares.limit.buffering.memRequestBodyBytes=200000000
       - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=1073741824
       - traefik.http.middlewares.limit.buffering.memResponseBodyBytes=200000000
+
+  # webserver:
+  #   image: nginx:1.19.8-alpine
+  #   container_name: registry-nginx
+  #   restart: always
+  #   depends_on:
+  #     - registry
+  #   expose:
+  #     - 80
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.docker-registry.rule=Host(`docker.mitrasinovic.co.uk`)
+  #     - traefik.http.routers.docker-registry.tls=true
+  #     - traefik.http.routers.docker-registry.middlewares=https_redirect@file
+  #     # - traefik.http.services.docker-registry-service.loadbalancer.server.port=5000
+  #     # Sets the maximum request body to 1GB
+  #     # - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=1073741824
+  #     # - traefik.http.middlewares.limit.buffering.memRequestBodyBytes=200000000
+  #     # - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=1073741824
+  #     # - traefik.http.middlewares.limit.buffering.memResponseBodyBytes=200000000
+  #   volumes:
+  #     - ./nginx-conf:/etc/nginx/conf.d
+  #   networks:
+  #     - traefik-proxy
+  #     - registry-proxy
 
 networks:
   traefik-proxy:
     external: true
+  # registry-proxy:
+  #   driver: bridge
