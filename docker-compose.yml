@@ -25,6 +25,8 @@ services:
       - traefik.http.routers.docker-registry.tls=true
       # Sets the maximum request body to 1GB
       - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=1073741824
+      - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=1073741824
+      - traefik.http.middlewares.limit.buffering.memResponseBodyBytes=200000000
 
 networks:
   #  backend:
