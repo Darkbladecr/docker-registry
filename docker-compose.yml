@@ -21,8 +21,8 @@ services:
     labels:
       - traefik.enable=true
       - traefik.http.routers.docker-registry.rule=Host(`docker.mitrasinovic.co.uk`)
-      # - traefik.http.routers.docker-registry.entrypoints=web
-      - traefik.http.routers.docker-registry.tls=true
+      - traefik.http.routers.docker-registry.entrypoints=web
+      - traefik.http.routers.docker-registry.tls=false
       # Sets the maximum request body to 1GB
       - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=1073741824
       - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=1073741824
