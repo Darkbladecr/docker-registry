@@ -30,6 +30,11 @@ services:
         - traefik.http.routers.docker-registry.tls=true
         - traefik.http.routers.docker-registry.middlewares=https_redirect@file, limit@docker
         - traefik.http.services.docker-registry-service.loadbalancer.server.port=5000
+        - traefik.http.middlewares.limit.buffering.maxRequestBodyBytes=10737418240
+        - traefik.http.middlewares.limit.buffering.memRequestBodyBytes=200000000
+        - traefik.http.middlewares.limit.buffering.maxResponseBodyBytes=10737418240
+        - traefik.http.middlewares.limit.buffering.memResponseBodyBytes=200000000
+
 
 networks:
   traefik-proxy:
